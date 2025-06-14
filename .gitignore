@@ -30,3 +30,6 @@ override.tf.json
 
 # JetBrains IDEA project files
 .idea
+
+
+.terraform.lock.hcl

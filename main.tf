@@ -32,6 +32,7 @@ resource "aws_apprunner_service" "this" {
           content {
             port                          = lookup(image_configuration.value, "port", null)
             runtime_environment_variables = lookup(image_configuration.value, "runtime_environment_variables", null)
+            runtime_environment_secrets   = lookup(image_configuration.value, "runtime_environment_secrets", null)
             start_command                 = lookup(image_configuration.value, "start_command", null)
           }
         }
@@ -65,6 +66,7 @@ resource "aws_apprunner_service" "this" {
               port                          = lookup(code_configuration_values.value, "port", null)
               start_command                 = lookup(code_configuration_values.value, "start_command", null)
               runtime_environment_variables = lookup(code_configuration_values.value, "runtime_environment_variables", null)
+              runtime_environment_secrets   = lookup(code_configuration_values.value, "runtime_environment_secrets", null)
             }
           }
         }
@@ -96,11 +98,26 @@ resource "aws_apprunner_service" "this" {
   ## Custom VPC
   network_configuration {
     egress_configuration {
-      egress_type       = var.vpc_connector_arn != null ? "VPC" : "DEFAULT"
-      vpc_connector_arn = var.vpc_connector_arn
+      egress_type       = var.vpc_connector_arn != null && var.vpc_connector_arn != "" ? "VPC" : "DEFAULT"
+      vpc_connector_arn = var.vpc_connector_arn != "" ? var.vpc_connector_arn : null
     }
+    dynamic "ingress_configuration" {
+      for_each = var.is_publicly_accessible != null ? [1] : []
+      content {
+        is_publicly_accessible = var.is_publicly_accessible
+      }
+    }
+    ip_address_type = var.ip_address_type
   }
   encryption_configuration {
     kms_key = var.kms_key_arn
+  }
+
+  dynamic "observability_configuration" {
+    for_each = var.observability_enabled ? [1] : []
+    content {
+      observability_enabled           = var.observability_enabled
+      observability_configuration_arn = var.observability_configuration_arn
+    }
   }
 }

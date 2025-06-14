@@ -94,9 +94,8 @@ variable "image_identifier" {
   default     = ""
 }
 
-# TODO constrain type
 variable "image_configuration" {
-  description = "Configuration for running the identified image."
+  description = "Configuration for running the identified image. Supports runtime_environment_secrets for secret environment variables."
   type        = any
   default     = {}
 }
@@ -143,9 +142,8 @@ variable "code_configuration_source" {
   }
 }
 
-# TODO constrain type
 variable "code_configuration_values" {
-  description = "Basic configuration for building and running the App Runner service. Use this parameter to quickly launch an App Runner service without providing an apprunner.yaml file in the source code repository (or ignoring the file if it exists). "
+  description = "Basic configuration for building and running the App Runner service. Supports runtime_environment_secrets for secret environment variables. Use this parameter to quickly launch an App Runner service without providing an apprunner.yaml file in the source code repository (or ignoring the file if it exists). "
   type        = any
   default     = {}
 }
@@ -153,5 +151,29 @@ variable "code_configuration_values" {
 variable "code_connection_arn" {
   type        = string
   description = "The connection ARN to use for the App Runner service if the service_source_type is 'code'"
+  default     = ""
+}
+
+variable "is_publicly_accessible" {
+  description = "Specifies whether your App Runner service is publicly accessible. To make the service publicly accessible set it to true. To make the service privately accessible, from only within an Amazon VPC set it to false."
+  type        = bool
+  default     = true
+}
+
+variable "ip_address_type" {
+  description = "App Runner provides you with the option to choose between Internet Protocol version 4 (IPv4) and dual stack (IPv4 and IPv6) for your incoming public network configuration. Valid values: IPV4, DUAL_STACK. Default: IPV4."
+  type        = string
+  default     = "IPV4"
+}
+
+variable "observability_enabled" {
+  description = "When true, an observability configuration resource is associated with the service."
+  type        = bool
+  default     = false
+}
+
+variable "observability_configuration_arn" {
+  description = "ARN of the observability configuration that is associated with the service. Specified only when observability_enabled is true."
+  type        = string
   default     = ""
 }
