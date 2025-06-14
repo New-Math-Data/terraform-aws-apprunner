@@ -13,7 +13,7 @@ Terraform module which creates AWS AppRunner resources, currently only creates `
 
 ```hcl
 module "hello_app_runner" {
-  source = "bhegazy/terraform-aws-app-runner"
+  source = "app.terraform.io/NewMathData/apprunner/aws"
 
   create = true
   service_name             = "hello-app-runner"
@@ -35,7 +35,7 @@ module "hello_app_runner" {
 
 ```hcl
 module "image_repository_private" {
-  source = "bhegazy/terraform-aws-app-runner"
+  source = "app.terraform.io/NewMathData/apprunner/aws"
 
   create = true
   service_name             = "my-service"
@@ -64,7 +64,7 @@ module "image_repository_private" {
 
 ```hcl
 module "code_repository_source" {
-  source = "bhegazy/terraform-aws-app-runner"
+  source = "app.terraform.io/NewMathData/apprunner/aws"
   
   create = true
   service_name             = "my-service"
@@ -162,7 +162,7 @@ Apache 2 Licensed. See [LICENSE](https://github.com/bhegazy/terraform-aws-apprun
 
 ```hcl
 module "my_app_runner" {
-  source = "bhegazy/terraform-aws-app-runner"
+  source = "app.terraform.io/NewMathData/apprunner/aws"
   create = true
   service_name = "my-service"
   service_source_type = "image"
